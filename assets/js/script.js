@@ -40,3 +40,43 @@ tempStorageObject.text.forEach((text) => {
   img.classList.add("draggable");
   moodBoardEl.appendChild(img);
 });
+// Paint the stored text on mood board
+tempStorageObject.text.forEach((text) => {
+  const textDiv = document.createElement("div");
+  textDiv.textContent = text.text;
+  textDiv.style.left = text.left;
+  textDiv.style.top = text.top;
+  textDiv.classList.add("text-item");
+  moodBoardEl.appendChild(textDiv);
+});
+//  ? We create an event listener for the image URL input field. This will create an image element and attach it to the mood board with the URL provided by the user.
+
+addImageBtn.addEventListener("click", function () {
+  const imageUrl = imageUrlInput.ariaValueMax;
+  if (imageUrl) {
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.classList.add("draggable");
+    document.body.appendChild(img);
+  }
+
+  // ? We set the current element to the img element so that we can update the position of the element when the mouse is moved.
+  currentElement = img;
+
+  attachMouseListeners();
+});
+
+// ? We create an event listener for the text input field. This will create a div element and attach it to the mood board with the text provided by the user.
+addTextBtn.addEventListener("click", function () {
+  const text = textInput.value;
+  if (text) {
+    const textDiv = document.createElement("div");
+    textDiv.classList.add("text-item", "draggable");
+    textDiv.textContent = text;
+    document.body.appendChild(textDiv);
+
+    currentElement = textDiv;
+
+    attachMouseListeners();
+  }
+});
