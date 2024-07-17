@@ -1,0 +1,9 @@
+:root {
+    --content-height: 500px;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: aqua;
+    text-align: center;
+}
