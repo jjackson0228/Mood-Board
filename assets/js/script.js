@@ -80,3 +80,52 @@ addTextBtn.addEventListener("click", function () {
     attachMouseListeners();
   }
 });
+function attachMouseListeners() {
+  document.addEventListener("mousemove", mouseMoveHandler);
+  moodBoardEl.addEventListener("click", placeElementClickHandler);
+}
+// ? This is the event handler for the mouse move event. This will be called whenever the mouse is moved on the screen.
+// ? We check if the current element is set. If it is set, we update the position of the element to the mouse position.
+function mouseMoveHandler(event) {
+  if (currentElement) {
+    currentElement.style.left = event.clientX + "px";
+    currentElement.style.top = event.clientY + "px";
+  }
+}
+
+function placeElementClickHandler(event) {
+  if (currentElement) {
+    const moodBoardRect = moodBoardEl.getBoundingClientRect();
+
+    const left = `${event.clientX - moodBoardRect.left}px}`;
+    const top = `${event.clientY - moodBoardRect.top}px`;
+
+    currentElement.style.left = left;
+    currentElement.style.top = top;
+
+    moodBoardEl.appendChild(currentElement);
+
+    if (currentElement.tagName === "IMG") {
+      tempStorageObject.images.push({
+        text: currentElement.textContent,
+        left: left,
+        top: top,
+      });
+    } else {
+      tempStorageObject.text.push({
+        text: currentElement.textContent,
+        left: left,
+        top: top,
+      });
+    }
+    updateLocalStorage();
+
+    currentElement = null;
+
+    imageUrlInput.value = "";
+    textInput.value = "";
+
+    document.removeEventListener("mousemove", mouseMoveHandler);
+  }
+}
+window.onload = loadFromLocalStorage;
